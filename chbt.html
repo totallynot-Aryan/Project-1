@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Demo</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+  box-sizing: border-box;
+  }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  .chatbox {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 350px;
+    height: 500px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px 0 0 0;
+    overflow: hidden;
+  }
+
+  .header {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+  }
+
+  .header h2 {
+    margin: 0;
+  }
+
+  .conversation {
+    height: 350px;
+    overflow-y: scroll;
+    padding: 10px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .message-box {
+    padding: 10px;
+    display: flex;
+  }
+
+  #message-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  button[type="submit"] {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #0069d9;
+  }
+
+</style>
+</head>
+<body>
+  <div class="chatbox">
+    <div class="header">
+      <h2>Chatbot Demo</h2>
+    </div>
+    <div class="conversation">
+      <ul></ul>
+    </div>
+    <div class="message-box">
+      <form id="message-form">
+        <input type="text" id="message-input" placeholder="Type your message here...">
+        <button type="submit">Send</button>
+      </form>
+    </div>
+  </div>
+  
+  <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+  <df-messenger
+    chat-icon="https://www.example.com/assets/img/logo.png"
+    intent="WELCOME"
+    chat-title="Chatbot Demo"
+    agent-id="YOUR_AGENT_ID"
+    language-code="en"
+  ></df-messenger>
+  
+  <script src="script.js"></script>
+  <script>
+    const messageForm = document.querySelector('#message-form');
+    const messageInput = document.querySelector('#message-input');
+    const conversation = document.querySelector('.conversation ul');
+
+    messageForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const message = messageInput.value;
+      addMessageToConversation(message, 'user');
+      sendMessageToDialogflow(message);
+      messageInput.value = '';
+    });
+
+    function addMessageToConversation(message, sender) {
+      const li = document.createElement('li');
+      li.classList.add(sender);
+      li.textContent = message;
+      conversation.appendChild(li);
+      conversation.scrollTop = conversation.scrollHeight;
+    }
+
+    function sendMessageToDialogflow(message) {
+      const projectId = 'YOUR_PROJECT_ID';
+      const sessionId = Math.random().toString(36).substring(7);
+      const languageCode = 'en-US';
+      const url = `
+
+  </script>
+</body>
+</html>

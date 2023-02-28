@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chatbot Demo</title>
+	<style>
+		/* Add CSS styles for the chat window */
+		.chat-window {
+			position: fixed;
+			bottom: 0;
+			right: 20px;
+			width: 300px;
+			height: 400px;
+			background-color: #fff;
+			border: 1px solid #ccc;
+			box-shadow: 0 0 10px #ccc;
+			overflow-y: scroll;
+		}
+		.chat-window .message {
+			padding: 10px;
+			margin: 5px;
+			border-radius: 5px;
+			background-color: #f2f2f2;
+		}
+		.chat-window .user-message {
+			text-align: right;
+		}
+		.chat-window .bot-message {
+			text-align: left;
+		}
+		.chat-window input[type=text] {
+			width: 100%;
+			padding: 10px;
+			border: none;
+			border-top: 1px solid #ccc;
+		}
+	</style>
+</head>
+<body>
+	<!--<h1>Welcome to Chatbot Demo</h1>-->
+	
+	<div class="chat-window">
+		<div class="message bot-message">Hello! I'm Sumit, The bot. How can I help you today?</div>
+		<input type="text" placeholder="Type your message here">
+	</div>
+	
+	<script>
+		// Define a function for sending the user's message to the chatbot server and displaying the response
+		function send_message() {
+			var input = document.querySelector('.chat-window input[type=text]');
+			var message = input.value;
+			input.value = '';
+			
+			var chat = document.querySelector('.chat-window');
+			var user_message = '<div class="message user-message">' + message + '</div>';
+			chat.innerHTML += user_message;
+			
+			fetch('/chatbot', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: 'message=' + encodeURIComponent(message)
+			})
+			.then(function(response) {
+				return response.json();
+			})
+			.then(function(data) {
+				var bot_message = '<div class="message bot-message">' + data.response + '</div>';
+				chat.innerHTML += bot_message;
+				chat.scrollTop = chat.scrollHeight;
+			})
+			.catch(function(error) {
+				console.error(error);
+			});
+		}
+		
+		// Add an event listener for the input field to send the message when the user presses Enter
+		document.querySelector('.chat-window input[type=text]').addEventListener('keydown', function(event)
+        {
+			if (event.key === "Enter") 
+            {
+			event.preventDefault();
+			send_message();
+		    }
+	    });
+</script>
+</body>
+</html>
